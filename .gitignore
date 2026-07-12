@@ -1,0 +1,27 @@
+# ===== 비밀정보 절대 커밋 금지 (다른 PC/계정별 로컬 보관) =====
+sites.config.json
+.env
+.env.*
+*.secret
+secrets/
+credentials/
+
+# ===== 의존성 =====
+node_modules/
+package-lock.json
+
+# ===== 리서치/생성 산출물 (임시) =====
+*.b64
+datalab-body.txt
+downloads/
+tmp/
+scratch/
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# ===== OS =====
+Thumbs.db
+.DS_Store
+desktop.ini

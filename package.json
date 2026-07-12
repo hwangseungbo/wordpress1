@@ -1,0 +1,14 @@
+{
+  "name": "wordpress-adsense-automation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "WordPress × 구글 애드센스 정보성 블로그 다중 운영·자동화 (표준·리서치·발행)",
+  "type": "module",
+  "scripts": {
+    "research:datalab": "node scripts/research/naver-datalab.mjs",
+    "test:naver": "node scripts/research/naver-access-test.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.61.1"
+  }
+}

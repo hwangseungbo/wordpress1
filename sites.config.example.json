@@ -1,0 +1,31 @@
+{
+  "_주의": "이 파일은 '예시 템플릿'입니다. 실제 값을 채운 파일은 반드시 sites.config.json 로 저장하세요(=.gitignore로 커밋 제외). 비밀번호/앱비밀번호는 절대 깃에 올리지 마세요.",
+  "sites": [
+    {
+      "name": "issuebrief",
+      "baseUrl": "https://issuebrief.net",
+      "restUrl": "https://issuebrief.net/wp-json",
+      "authMethod": "application-password",
+      "username": "WORDPRESS_USERNAME_여기에",
+      "appPassword": "APPLICATION_PASSWORD_여기에 (설정: WP 관리자 > 사용자 > 프로필 > 애플리케이션 비밀번호)",
+      "defaultAuthorName": "이슈브리프 편집부",
+      "categories": {
+        "생활정보": 2,
+        "경제·재테크": 3,
+        "IT·디지털": 4,
+        "건강·라이프": 5,
+        "이슈·트렌드": 6
+      }
+    },
+    {
+      "name": "두번째블로그(예시)",
+      "baseUrl": "https://example2.com",
+      "restUrl": "https://example2.com/wp-json",
+      "authMethod": "application-password",
+      "username": "",
+      "appPassword": "",
+      "defaultAuthorName": "",
+      "categories": {}
+    }
+  ]
+}
