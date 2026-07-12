@@ -59,6 +59,10 @@
 - **네이버 차단 우회 = Playwright**: claude-in-chrome은 naver.com 전체 차단. Playwright는 datalab/search 모두 status 200. Node에서 `npx playwright install chromium` 후 `chromium.launch({headless:true})`.
 - **구글 트렌드 내부 API**(위젯 렌더 안 될 때): `/trends/api/explore`로 토큰 획득 → `/trends/api/widgetdata/multiline`(관심도) / `/relatedsearches`(연관·급상승). 응답 앞 프리픽스는 `t.slice(t.indexOf('{'))`로 제거.
 - **구글 자동완성 API**: `https://www.google.com/complete/search?client=chrome&hl=ko&gl=kr&q=키워드` → JSON `[query,[제안들]]`.
+- **⭐ 네이버 자동완성(연관검색어) API — 제목·본문 구성의 핵심**: `https://ac.search.naver.com/nx/ac?q=키워드&con=1&frm=nv&ans=2&r_format=json&r_enc=UTF-8&q_enc=UTF-8&st=100` (Referer: naver.com, UTF-8 URL인코딩 필수 — PowerShell은 `[System.Web.HttpUtility]::UrlEncode(kw,UTF8)`). 로그인·차단 없음, 실제 네이버 검색창 자동완성과 동일 결과 실측 확인.
+  - **제목 규칙**: 메인 키워드를 **네이버+구글 자동완성 둘 다** 조회 → 양쪽 연관검색어 중 적합한 **2~3개를 조합해 제목** 구성 (예: "고유가피해지원금" → 연관어 신청·기간 → 제목 "고유가피해지원금 신청 기간 총정리"). 양쪽에 공통으로 뜨는 연관어가 최우선.
+  - **본문 규칙**: 네이버·구글 연관검색어에 뜨는 항목(사용처·기준·대상·이의신청·평균·계산기 등)을 **가능한 한 본문 섹션으로 전부 커버** — 롱테일 유입 극대화.
+  - 매 글 작성 전 메인 키워드 + 파생 키워드 2~3개로 **네이버·구글 각각 조회**해 합집합을 커버리지 체크리스트로 쓸 것. (실측: 국민연금 예상수령액 → 네이버=조회·표·계산기·평균·감액기준, 구글=계산기·표·물가상승률·평균·높이는방법 — 겹치되 서로 다른 어미가 나옴)
 
 ---
 
@@ -73,6 +77,7 @@
 - **[2026-07-12] 네이버 robots.txt 가이드 실측(insane-search로 공식가이드 원문 확보)**: ①루트에 robots.txt 없으면 "모두 허용"으로 간주(없어도 크롤링은 됨). ②응답코드 처리 — **2xx만 규칙 사용, 4xx=모두 허용, 5xx=모두 비허용(수집 차단!)**. ⚠️ **cafe24 Basic 과부하로 robots.txt가 5xx 뜨면 네이버 수집이 막힌다** → 안정성 중요. robots.txt가 HTML로 반환돼도 "없음"처리 → 반드시 text/plain. ③규칙은 **호스트·프로토콜·포트별로만 유효**(issuebrief.net ≠ www.issuebrief.net, http ≠ https). ④**JS/CSS·파비콘 경로 차단 금지**(렌더 해석 실패로 오분류). ⑤sitemap 위치를 robots.txt에 기록 권장. ⑥웹마스터도구 robots.txt 도구에서 **수집요청**으로 즉시 반영. **issuebrief 현황**: /robots.txt 실측 200·text·Sitemap 포함·wp-admin만 차단(JS/CSS 미차단) = 가이드 완전 부합. 네이버 진단 "없음"은 과거시점/cafe24 일시 5xx 추정 → **진단 재실행이 유일 조치**. (도구: insane-search 플러그인이 searchadvisor.naver.com 차단을 뚫음 — WebFetch/인앱브라우저/claude-in-chrome 모두 이 도메인 차단됨)
 - **[2026-07-12] 스키마 마크업(구조화 데이터) 인사이트**: 네이버 서치어드바이저도 **구조화 데이터를 공식 지원**(JSON-LD). ⚠️ **네이버 공식 지원 타입엔 Article·Product·FAQ가 없음** — BreadcrumbList·평점(AggregateRating)·리뷰·레시피·HowTo·주소·채용·캐러셀·소프트웨어·영화·TV·식당·동영상·연관채널만(2026 공식가이드 목차 확인). 단 **네이버 통합검색 본체는 스마트블록+에어서치(AI 개인화)**라 스키마 태그가 아니라 AI가 노출을 정함 → 스키마 확실 효과는 **'웹사이트/웹문서' 영역**(issuebrief=자체호스팅 WP가 이 영역, 수혜 대상). **블로그·카페 상위노출은 스키마 아니라 본문 구조화(표·요약·소제목)로 먹힘.** ⭐ **스키마 진짜 수혜자는 구글**(리치결과 로직 가장 확실) → 애드센스(구글) 목표와 정확히 일치. ⚠️ 정보성 글 자기 별점 마크업은 구글 페널티. issuebrief는 Rank Math가 Article·BreadcrumbList 자동 출력 중 → 추가로 FAQPage(네이버용)·상품리뷰글 Product만 챙기면 됨. (근거: searchadvisor.naver.com/guide 구조화데이터 섹션, 구글 검색센터)
 - **[2026-07-12] cafe24 AL Pack × 애드센스 ads.txt 함정**: cafe24 "애드센스 워드프레스" 상품 기본 플러그인 **AL Pack(프레스런)**이 ads.txt를 **자기 pub ID(실측 pub-1226089826247541)로 루트에 물리파일 생성** + `google.com, , DIRECT,...`(빈 pub) 깨진 줄 삽입. → 본인 애드센스 붙일 때: ①**AL Pack 비활성화·삭제**(REST `DELETE /wp-json/wp/v2/plugins/alpack/presslearn-plugin`, deactivate 후 delete) ②ads.txt는 **물리파일이라 WP/플러그인으로 못 고침**(nginx가 정적파일 우선 서빙 → Ads.txt Manager 플러그인 무용) → **FTP(FileZilla)/cafe24 파일관리자로 루트 ads.txt를 본인 pub 한 줄만 남기고 교체**: `google.com, pub-본인번호, DIRECT, f08c47fec0942fa0`. ③검증 `/ads.txt?cb=난수` 캐시우회로 exactMatch 확인(200·text/plain). 구글 ads.txt 재크롤링 수시간~24h. **CMP(동의 메시지)**: Google 인증 CMP 2선택(동의/옵션관리)이 한국 사이트엔 최선(동의율↑, 거부는 옵션관리 내 → 적법). 서드파티 CMP는 신규블로그 과함.
+- **[2026-07-12] WP SEO AI 분석도구 특성(오판 주의)**: (1) **콘텐츠 길이를 '단어(어절)' 1,500개 기준**으로 판정 → 우리 1,500자 표준(≈450어절)은 도구상 '미달'로 뜸. 국민연금 등 경쟁 키워드는 **2,000~3,000자+로 더 깊게** 쓰는 게 실제 유리(단 1,500어절=~5,000자까지 억지로 늘리면 fluff 위험 → 실질 섹션으로만 보강). (2) **구조화 데이터를 본문(post_content)만 스캔** → Rank Math가 `<head>`에 넣는 BlogPosting·BreadcrumbList를 못 보고 **'구조화 데이터 없음' 오탐**. 실제론 라이브 ld+json에 존재(`Invoke-WebRequest`로 확인). → **추가 스키마 삽입 금지**(Rank Math와 중복). **도구 초록불보다 라이브 실측이 정본.**
 - **[2026-07-12] 쿠팡 파트너스 × 애드센스**: 제휴 링크 자체는 위반 아님. 승인 취소 리스크는 "제휴 링크 유무"가 아니라 **①콘텐츠가 판매용으로 변질(얕은 제휴) ②애드센스 광고를 구매버튼 옆에 헷갈리게 배치(기만적 클릭 유도) ③클릭 유도 문구 ④광고 과다**에서 옴. → 정보성 유지 + 상품 1~3개 자연 삽입 + 광고/제휴 시각 분리 + 대가성 문구 + `rel="sponsored nofollow"`면 안전.
 
 ---
@@ -91,6 +96,8 @@
 | 140 | 장마·집중호우 대비 | 생활정보 | heavy-rain-flood-safety |
 | 147 | [내부] 작업 지침서(정본, private) | — | internal-editorial-guideline |
 | 154 | 대상포진 초기증상·예방접종 | 건강·라이프 | shingles-symptoms-vaccine-guide |
+| 176 | 국민연금 예상수령액 조회·계산기(2026) | 경제·재테크 | national-pension-estimate-guide |
+| 183 | 퇴직금 계산방법·지급기준(2026) | 경제·재테크 | severance-pay-calculation-guide |
 
 ---
 
