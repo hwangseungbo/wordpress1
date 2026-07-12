@@ -20,6 +20,7 @@
 3. **리서치 도구**: `npm i` → `npx playwright install chromium` (네이버 데이터랩 등 동적 조회용).
 4. **사이트 설정**: `sites.config.example.json` → `sites.config.json` 복사 후 **새 워드프레스 계정**의 username·Application Password·카테고리 ID 입력. (gitignore됨 — 비밀정보는 이 PC 로컬에만.)
 5. **새 계정 고유값은 새로 채운다**: 표준(콘텐츠·SEO·스키마·도구·CPC/연령 인사이트)은 **블로그 무관하게 그대로 적용**. 단 issuebrief 고유값(정본글 147·카테고리 ID·발행글 목록·도메인)은 새 사이트에서 **재생성**한다 — 새 사이트에도 "내부 작업지침서" 비공개 정본글을 하나 만들고 그 ID로 `워드프레스-정본-포인터.md`를 갱신, 발행글 목록·카테고리 ID도 새로 기록.
+6. **⚠️ 애드센스 붙일 때 (cafe24 필수 정리)**: cafe24 기본 플러그인 **AL Pack이 ads.txt를 자기 pub ID로 심어둠**(+ 깨진 빈 줄). → **AL Pack 삭제** + **ads.txt를 FTP/cafe24 파일관리자로 본인 pub 한 줄만 남기기**(`google.com, pub-본인번호, DIRECT, f08c47fec0942fa0`). ads.txt는 물리파일이라 WP로 못 고침. **CMP는 Google 인증 2선택(동의/옵션관리)** 선택. 상세는 작업지침서 §3 인사이트 로그.
 
 ## 🔐 보안
 - 워드프레스 비밀번호·Application Password·API 키 등 **비밀정보는 절대 커밋 금지.** 실제 값은 `sites.config.json`(gitignore됨)에만 둔다. 템플릿은 `sites.config.example.json`.
@@ -35,5 +36,6 @@
 
 ## 현재 진행 상황 (2026-07-12 기준)
 - issuebrief.net 운영 중, 발행글 목록은 작업지침서 참고. 최근: 154 대상포진(건강·라이프).
-- 오후 예정: 온열질환 글(트렌드·SERP 데이터 확보됨).
+- **애드센스 신청 진행 중**: 초기글 7편(9·10·11·12·13·14·51) 표준 소급 보수 완료(1,500자·이미지3·내부링크3·외부출처). AL Pack 제거 + ads.txt 본인 pub(pub-5822863367189691) 한 줄로 교체 완료. CMP 제출 → 검토 대기.
+- 예정: 온열질환 글(트렌드·SERP 데이터 확보됨).
 - 다음 로드맵: Application Password 기반 헤드리스 발행 모듈(다중 계정) — README 참고.
