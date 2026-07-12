@@ -28,6 +28,12 @@
 7. **애드센스 안전 각도**: 승인 전엔 이슈/가십 대신 **정보성**. 정책 위반(가십·사생활·자극) 회피.
 8. **이미지 3~4장**: ①대표 커버 ②본문 중간 원본 인포그래픽 1~2개(Pretendard canvas 제작) ③검수한 CC0 실물 사진 1장. **저작권 안전 필수** — 원본 제작 또는 무료 상업이용 스톡(Openverse API, CC0·상업허용, Wikimedia 우선)만. **임의 웹 크롤링 금지**. 사진 검수법: Openverse 검색 → curl 다운로드 → **Read 도구로 실제 확인** → 적합할 때만 업로드. alt 필수, CC사진은 저작자·라이선스 캡션.
 9. **발행 후 QA 게이트**: 길이·내부링크(3+)·외부출처·이미지수·캡션·메타/OG/스키마 실측 통과 후 마무리. **이미지 업로드는 소량씩·간격(1.5초+)** — cafe24 Basic 공유호스팅 과부하 방지(연속 대량 업로드 시 src="undefined" 깨짐 실제 발생). 업로드 후 media.source_url 존재 확인.
+10. **구조화 데이터(스키마 마크업, JSON-LD)** — 검색결과 리치 결과(별점·FAQ·경로)로 CTR↑. 네이버·구글 모두 **JSON-LD 권장**. issuebrief 적용 규칙:
+    - **Article·BreadcrumbList**: 전 글. Rank Math가 **자동 출력**하므로 그대로 둠(중복 삽입 금지).
+    - **FAQPage**: 구글은 FAQ 리치결과를 정부·의료로 제한(2023~), **네이버는 FAQPage 스키마 자체를 공식 지원 안 함**(네이버 검색의 Q&A 노출은 스키마가 아니라 콘텐츠 기반 추출·스마트블록). → FAQ 스키마 효과 기대치 낮음. FAQ 섹션은 스키마와 무관하게 본문 품질용으로 유지.
+    - **Review/AggregateRating(평점)**: **실제 상품·소프트웨어 리뷰 글에만.** 네이버는 평점(AggregateRating)·리뷰(Review)를 공식 지원(별점 노출 O — 예: 소프트웨어 검색결과 별점). ⚠️ 정보성 글에 자기 별점 삽입은 **구글 페널티** → 금지.
+    - ⚠️ **네이버 공식 지원 구조화 데이터 목록(2026 확인)**: BreadcrumbList·평점(AggregateRating)·리뷰(Review)·레시피·하우투(HowTo)·주소(Address)·채용정보(JobPosting)·캐러셀(ListItem)·소프트웨어(Software)·영화·TV시리즈·식당(Restaurant)·동영상·사이트연관채널. **← Article·Product·FAQPage는 네이버 목록에 없음.** issuebrief(정보성)에 네이버용으로 유효한 건 사실상 **BreadcrumbList뿐**. 그래서 스키마 진짜 수혜자는 구글(Article 지원).
+    - **중복 스키마 주의**: 별도 "AI 스키마 마크업" 플러그인 등을 Rank Math와 함께 쓰면 같은 타입 이중 출력 위험 → **구글 리치 결과 테스트 + Schema Markup Validator로 검증**.
 
 ---
 
@@ -64,6 +70,8 @@
 - **[2026-07-12] 연령대(CPC) 인사이트**: 중장년 고단가 → 주제 선정에 연령/카테고리 반영(2절 참고).
 - **[2026-07-12] 네이버 차단 & Playwright 우회**: claude-in-chrome은 naver.com 차단, Playwright는 우회 가능(실측 status 200).
 - **[2026-07-12] 네이버 데이터랩 실측(후보 검색량, 1년 일별, 최고점=작년 폭염=100 정규화)**: 대상포진 avg 29.6(에버그린·연중 최고), 무릎관절 7.4, 폭염 6.9(max 100 시즌), 온열질환 5.0(여름 스파이크), 냉방병 2.9. **교훈: "지금 뜨는 시즌 키워드(온열질환)"보다 "검색량 크고 계절 안 타는 에버그린(대상포진)"이 장기 트래픽·수익에 유리.** DataLab 검색어트렌드는 Playwright로 조회 → 결과 페이지 HTML의 `[{"title":...,"data":[{"period":"YYYYMMDD","value":N}]}]` 파싱(괄호 균형으로 배열 추출). 조회 버튼 `.ca_btn_go`, POST는 qcHash.naver 거쳐 trendResult.naver?hashKey=로 렌더.
+- **[2026-07-12] 네이버 robots.txt 가이드 실측(insane-search로 공식가이드 원문 확보)**: ①루트에 robots.txt 없으면 "모두 허용"으로 간주(없어도 크롤링은 됨). ②응답코드 처리 — **2xx만 규칙 사용, 4xx=모두 허용, 5xx=모두 비허용(수집 차단!)**. ⚠️ **cafe24 Basic 과부하로 robots.txt가 5xx 뜨면 네이버 수집이 막힌다** → 안정성 중요. robots.txt가 HTML로 반환돼도 "없음"처리 → 반드시 text/plain. ③규칙은 **호스트·프로토콜·포트별로만 유효**(issuebrief.net ≠ www.issuebrief.net, http ≠ https). ④**JS/CSS·파비콘 경로 차단 금지**(렌더 해석 실패로 오분류). ⑤sitemap 위치를 robots.txt에 기록 권장. ⑥웹마스터도구 robots.txt 도구에서 **수집요청**으로 즉시 반영. **issuebrief 현황**: /robots.txt 실측 200·text·Sitemap 포함·wp-admin만 차단(JS/CSS 미차단) = 가이드 완전 부합. 네이버 진단 "없음"은 과거시점/cafe24 일시 5xx 추정 → **진단 재실행이 유일 조치**. (도구: insane-search 플러그인이 searchadvisor.naver.com 차단을 뚫음 — WebFetch/인앱브라우저/claude-in-chrome 모두 이 도메인 차단됨)
+- **[2026-07-12] 스키마 마크업(구조화 데이터) 인사이트**: 네이버 서치어드바이저도 **구조화 데이터를 공식 지원**(JSON-LD). ⚠️ **네이버 공식 지원 타입엔 Article·Product·FAQ가 없음** — BreadcrumbList·평점(AggregateRating)·리뷰·레시피·HowTo·주소·채용·캐러셀·소프트웨어·영화·TV·식당·동영상·연관채널만(2026 공식가이드 목차 확인). 단 **네이버 통합검색 본체는 스마트블록+에어서치(AI 개인화)**라 스키마 태그가 아니라 AI가 노출을 정함 → 스키마 확실 효과는 **'웹사이트/웹문서' 영역**(issuebrief=자체호스팅 WP가 이 영역, 수혜 대상). **블로그·카페 상위노출은 스키마 아니라 본문 구조화(표·요약·소제목)로 먹힘.** ⭐ **스키마 진짜 수혜자는 구글**(리치결과 로직 가장 확실) → 애드센스(구글) 목표와 정확히 일치. ⚠️ 정보성 글 자기 별점 마크업은 구글 페널티. issuebrief는 Rank Math가 Article·BreadcrumbList 자동 출력 중 → 추가로 FAQPage(네이버용)·상품리뷰글 Product만 챙기면 됨. (근거: searchadvisor.naver.com/guide 구조화데이터 섹션, 구글 검색센터)
 - **[2026-07-12] 쿠팡 파트너스 × 애드센스**: 제휴 링크 자체는 위반 아님. 승인 취소 리스크는 "제휴 링크 유무"가 아니라 **①콘텐츠가 판매용으로 변질(얕은 제휴) ②애드센스 광고를 구매버튼 옆에 헷갈리게 배치(기만적 클릭 유도) ③클릭 유도 문구 ④광고 과다**에서 옴. → 정보성 유지 + 상품 1~3개 자연 삽입 + 광고/제휴 시각 분리 + 대가성 문구 + `rel="sponsored nofollow"`면 안전.
 
 ---
