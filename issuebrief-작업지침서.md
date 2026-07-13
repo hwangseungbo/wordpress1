@@ -100,6 +100,7 @@
 | 176 | 국민연금 예상수령액 조회·계산기(2026) | 경제·재테크 | national-pension-estimate-guide |
 | 183 | 퇴직금 계산방법·지급기준(2026) | 경제·재테크 | severance-pay-calculation-guide |
 | 188 | 실업급여 조건 신청방법 수급기간(2026) | 경제·재테크 | unemployment-benefit-guide |
+| 195 | 주휴수당 조건 계산법 지급기준(2026) | 경제·재테크 | weekly-holiday-allowance-guide |
 
 ---
 
