@@ -110,6 +110,7 @@
 | 195 | 주휴수당 조건 계산법 지급기준(2026) | 경제·재테크 | weekly-holiday-allowance-guide |
 | 204 | 소상공인 저금리 정책자금 융자 총정리(전국) | 경제·재테크 | small-business-policy-fund-guide |
 | 205 | 인천 소상공인 저금리 융자 신청방법(1.6%) | 경제·재테크 | incheon-small-business-loan-2026 |
+| 211 | 기초연금 수급자격 재산기준 신청방법(2026) | 경제·재테크 | basic-pension-eligibility-guide |
 
 ---
 
