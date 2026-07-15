@@ -29,6 +29,14 @@
 8-0. **⚠️ 인포그래픽 푸터 규칙**: 이미지 안(캔버스)에는 `issuebrief.net` 워터마크만 그린다. **"▲ 이미지: 이슈브리프 자체 제작" 문구는 figcaption에만** — 이미지 안에 또 그리면 화면에 이중 표기됨(2026-07-12 실측, 기존 이미지 다수 해당 → 신규부터 준수).
 8. **이미지 3~4장**: ①대표 커버 ②본문 중간 원본 인포그래픽 1~2개(Pretendard canvas 제작) ③검수한 CC0 실물 사진 1장. **저작권 안전 필수** — 원본 제작 또는 무료 상업이용 스톡(Openverse API, CC0·상업허용, Wikimedia 우선)만. **임의 웹 크롤링 금지**. 사진 검수법: Openverse 검색 → curl 다운로드 → **Read 도구로 실제 확인** → 적합할 때만 업로드. alt 필수, CC사진은 저작자·라이선스 캡션.
 9. **발행 후 QA 게이트**: 길이·내부링크(3+)·외부출처·이미지수·캡션·메타/OG/스키마 실측 통과 후 마무리. **이미지 업로드는 소량씩·간격(1.5초+)** — cafe24 Basic 공유호스팅 과부하 방지(연속 대량 업로드 시 src="undefined" 깨짐 실제 발생). 업로드 후 media.source_url 존재 확인.
+9-1. **CTA 버튼 표준(재사용)**: 본문에 다운로드·신청 등 버튼을 넣을 땐 **브랜드 레드(#A31621) 그라디언트** 스니펫으로 통일(사용자 지침 2026-07-15, 첫 적용 글 250 카카오톡 PC 다운로드 버튼). LINK_URL·라벨·보조문구만 교체:
+    ```html
+    <div style="text-align:center;margin:32px 0;">
+    <a href="LINK_URL" target="_blank" rel="noopener nofollow" style="display:inline-block;background:linear-gradient(135deg,#A31621 0%,#c81e2c 100%);color:#ffffff;font-size:21px;font-weight:800;text-decoration:none;padding:20px 48px;border-radius:14px;box-shadow:0 8px 20px rgba(163,22,33,0.35);letter-spacing:-0.3px;line-height:1.3;">&#11015;&nbsp; 버튼라벨 <span style="font-weight:600;font-size:16px;opacity:0.9;">(보조라벨)</span></a>
+    <div style="font-size:13px;color:#8a8a8a;margin-top:10px;">※ 보조 안내문</div>
+    </div>
+    ```
+    인라인 style은 관리자(nonce) REST write에서 KSES에 유지됨(실측). 링크는 **공식/검증된 URL만**(예: 카톡 다운로드=`kakaocorp.com/page/service/service/KakaoTalk`, `pc.kakao.com`은 404).
 10. **구조화 데이터(스키마 마크업, JSON-LD)** — 검색결과 리치 결과(별점·FAQ·경로)로 CTR↑. 네이버·구글 모두 **JSON-LD 권장**. issuebrief 적용 규칙:
     - **Article·BreadcrumbList**: 전 글. Rank Math가 **자동 출력**하므로 그대로 둠(중복 삽입 금지).
     - **FAQPage**: 구글은 FAQ 리치결과를 정부·의료로 제한(2023~), **네이버는 FAQPage 스키마 자체를 공식 지원 안 함**(네이버 검색의 Q&A 노출은 스키마가 아니라 콘텐츠 기반 추출·스마트블록). → FAQ 스키마 효과 기대치 낮음. FAQ 섹션은 스키마와 무관하게 본문 품질용으로 유지.
@@ -116,7 +124,7 @@
 | 229 | 상속세 면제한도 공제 세율 신고기한(2026) | 경제·재테크 | inheritance-tax-guide (예약 7/15 06:17) |
 | 235 | SK하이닉스 주가 배당 실적 팩트 총정리(2026) | 경제·재테크 | sk-hynix-facts (객관적정보·투자자문X, 이미지3·3,166자) |
 | 240 | 은행 점검시간 이체 결제 안 되는 시간 총정리(2026) | 생활정보 | bank-maintenance-hours (검수반영·이미지3·3,124자) |
-| 250 | 카카오톡 PC버전 설치 다운로드 로그인 방법 총정리(2026) | IT·디지털 | kakaotalk-pc-install (공식경로·피싱주의·이미지3·3,093자) |
+| 250 | 카카오톡 PC버전 설치 다운로드 로그인 방법 총정리 | IT·디지털 | kakaotalk-pc-install (공식경로·피싱주의·이미지3·3,093자·CTA버튼·제목2026제거·중복256삭제) |
 
 ---
 
