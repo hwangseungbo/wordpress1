@@ -1,0 +1,156 @@
+/* Created: 2026-07-18 14:03:20 */
+/* =========================================================
+   이슈브리프 디자인 시스템 v1.3  (2026-07-18)
+   적용 위치: 워드프레스 사용자 정의하기 → 추가 CSS
+              (설정 ID: custom_css[astra])
+   ⚠️ 이 파일이 정본입니다. 커스터마이저에만 두면 다른 PC/계정으로
+      이식되지 않으므로, 수정하면 반드시 이 파일도 함께 갱신할 것.
+
+   ⚠️ 이 블록 위에 Pretendard @font-face 선언이 먼저 들어가 있습니다.
+      추가 CSS를 통째로 교체하지 말고 이 블록만 이어붙일 것.
+   ========================================================= */
+
+/* === IB-DESIGN v1 === */
+:root{
+  --ib-red:#A31621; --ib-red-deep:#7E1019; --ib-red-tint:#FBEFF0;
+  --ib-ink:#1A1517; --ib-body:#56504F; --ib-muted:#8C8385;
+  --ib-line:#E7E1E1; --ib-ground:#F8F5F5;
+}
+/* 헤더 브랜드 라인 */
+.ast-main-header-wrap, .site-header{ border-bottom:2px solid var(--ib-red); }
+
+/* 아카이브 카드 */
+.ast-article-post .ast-article-inner{
+  background:#fff; border:1px solid var(--ib-line); border-radius:14px;
+  overflow:hidden; height:100%; display:flex; flex-direction:column;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.ast-article-post .ast-article-inner:hover{
+  transform:translateY(-3px); border-color:var(--ib-red);
+  box-shadow:0 1px 2px rgba(26,21,23,.04), 0 10px 28px rgba(26,21,23,.09);
+}
+.ast-article-post .ast-blog-featured-section{ margin:0 0 16px; }
+.ast-article-post .ast-blog-featured-section img{ display:block; width:100%; height:auto; }
+.ast-article-post .ast-taxonomy-container,
+.ast-article-post .entry-title,
+.ast-article-post .ast-blog-meta-container,
+.ast-article-post .entry-content,
+.ast-article-post .ast-read-more-container{ padding-left:20px; padding-right:20px; }
+.ast-article-post .entry-content{ padding-bottom:18px; }
+
+/* 카테고리 */
+.ast-article-post .cat-links a{
+  font-size:11.5px; font-weight:700; letter-spacing:.1em;
+  color:var(--ib-red); text-decoration:none;
+}
+.ast-article-post .cat-links a:hover{ color:var(--ib-red-deep); text-decoration:underline; }
+
+/* 카드 제목 */
+.ast-article-post .entry-title{ margin:8px 0 10px; }
+.ast-article-post .entry-title a{
+  font-size:19px; line-height:1.42; font-weight:700;
+  color:var(--ib-ink); letter-spacing:-.01em;
+}
+.ast-article-post .entry-title a:hover{ color:var(--ib-red); }
+
+/* 메타 — 빨강 제거 (빨강은 카테고리에만) */
+.ast-article-post .entry-meta,
+.ast-article-post .entry-meta *,
+.ast-article-post .entry-meta a{
+  color:var(--ib-muted) !important; font-size:12.5px; font-variant-numeric:tabular-nums;
+}
+.ast-article-post .entry-meta a:hover{ color:var(--ib-red) !important; }
+.ast-article-post .entry-content p{ color:var(--ib-body); font-size:14.5px; line-height:1.72; }
+
+/* 단일 글 */
+.single .entry-title{
+  font-size:clamp(26px,4vw,34px); font-weight:800;
+  letter-spacing:-.02em; line-height:1.32; color:var(--ib-ink);
+}
+.single .entry-content{ font-size:17px; line-height:1.85; color:var(--ib-body); }
+.single .entry-content h2{
+  font-size:24px; font-weight:800; color:var(--ib-ink); letter-spacing:-.015em;
+  margin-top:2.2em; padding-top:.7em; border-top:1px solid var(--ib-line);
+}
+.single .entry-content h3{ font-size:19px; font-weight:700; color:var(--ib-ink); margin-top:1.8em; }
+.single .entry-content strong{ color:var(--ib-ink); }
+
+/* 표 — 모바일에서 가로 스크롤 */
+.entry-content figure.wp-block-table{ overflow-x:auto; }
+.entry-content table{ border-collapse:collapse; width:100%; font-size:15px; }
+.entry-content table th{ background:var(--ib-ground); color:var(--ib-ink); font-weight:700; }
+.entry-content table th, .entry-content table td{ border:1px solid var(--ib-line); padding:11px 13px; }
+
+/* 이미지 */
+.entry-content figure img{ border-radius:10px; }
+.entry-content figcaption{ color:var(--ib-muted); font-size:13px; text-align:center; }
+
+/* 접근성 */
+a:focus-visible, button:focus-visible{ outline:2px solid var(--ib-red); outline-offset:2px; border-radius:3px; }
+@media (prefers-reduced-motion:reduce){ .ast-article-post .ast-article-inner{ transition:none; } }
+
+/* === IB-DESIGN v1.1 === */
+/* 단일 글 메타도 회색으로 */
+.single .entry-meta, .single .entry-meta *, .single .entry-meta a,
+.ast-single-post .entry-meta, .ast-single-post .entry-meta a{
+  color:var(--ib-muted) !important; font-size:13px; font-variant-numeric:tabular-nums;
+}
+.single .entry-meta a:hover{ color:var(--ib-red) !important; }
+/* 첫 h2는 상단 구분선 제거 */
+.single .entry-content > h2:first-of-type{ border-top:0; padding-top:0; margin-top:1.4em; }
+/* 본문 링크 */
+.single .entry-content p a, .single .entry-content li a{
+  color:var(--ib-red); text-decoration:underline; text-underline-offset:3px;
+  text-decoration-thickness:1px; text-decoration-color:rgba(163,22,33,.35);
+}
+.single .entry-content p a:hover, .single .entry-content li a:hover{
+  text-decoration-color:var(--ib-red);
+}
+.single .entry-content ul li, .single .entry-content ol li{ margin-bottom:.5em; }
+
+/* === IB-DESIGN v1.2 lead === */
+/* 홈 첫 글 = 오늘의 브리프 (리드). PHP 수정 없이 CSS만으로 구현 */
+body.home .ast-row > .ast-article-post:first-child{ flex:0 0 100%; max-width:100%; }
+body.home .ast-row > .ast-article-post:first-child::before{
+  content:"오늘의 브리프"; display:block;
+  font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--ib-red);
+  margin:0 0 12px;
+}
+body.home .ast-row > .ast-article-post:first-child .post-content{
+  display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);
+  column-gap:30px; align-items:center;
+}
+body.home .ast-row > .ast-article-post:first-child .ast-blog-featured-section{
+  grid-column:1; grid-row:1 / span 20; margin:0; align-self:stretch;
+}
+body.home .ast-row > .ast-article-post:first-child .ast-blog-featured-section a{ display:block; height:100%; }
+body.home .ast-row > .ast-article-post:first-child .ast-blog-featured-section img{
+  height:100%; width:100%; object-fit:cover;
+}
+body.home .ast-row > .ast-article-post:first-child .post-content > *:not(.ast-blog-featured-section){
+  grid-column:2; padding-left:0; padding-right:30px;
+}
+body.home .ast-row > .ast-article-post:first-child .ast-taxonomy-container{ padding-top:26px; }
+body.home .ast-row > .ast-article-post:first-child .entry-title a{
+  font-size:27px; line-height:1.34; font-weight:800; letter-spacing:-.02em;
+}
+body.home .ast-row > .ast-article-post:first-child .entry-content p{ font-size:15.5px; }
+body.home .ast-row > .ast-article-post:first-child .entry-content{ padding-bottom:26px; }
+
+@media (max-width:921px){
+  body.home .ast-row > .ast-article-post:first-child .post-content{ display:block; }
+  body.home .ast-row > .ast-article-post:first-child .ast-blog-featured-section{ margin:0 0 16px; }
+  body.home .ast-row > .ast-article-post:first-child .ast-blog-featured-section img{ height:auto; }
+  body.home .ast-row > .ast-article-post:first-child .post-content > *:not(.ast-blog-featured-section){
+    padding-left:20px; padding-right:20px;
+  }
+  body.home .ast-row > .ast-article-post:first-child .entry-title a{ font-size:21px; }
+}
+
+/* === IB-DESIGN v1.3 === */
+/* 리드 카드: 커버가 카테고리를 크게 보여주므로 텍스트 쪽 라벨은 생략 */
+body.home .ast-row > .ast-article-post:first-child .ast-taxonomy-container{ display:none; }
+body.home .ast-row > .ast-article-post:first-child .entry-title{ margin-top:26px; }
+@media (max-width:921px){
+  body.home .ast-row > .ast-article-post:first-child .entry-title{ margin-top:8px; }
+}
